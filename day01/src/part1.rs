@@ -16,17 +16,17 @@ pub fn get_the_lists(input_content: Vec<String>) -> (Vec<i32>, Vec<i32>) {
     (list1, list2)
 }
 
-fn get_total_distance(list1: Vec<i32>, list2: Vec<i32>) -> i32 {
-    let total_distances: Vec<i32> = list1
+fn get_total_distance(list1: Vec<i32>, list2: Vec<i32>) -> u32 {
+    list1
         .iter()
         .zip(list2)
-        .map(|(a, b)| (a - b).abs())
-        .collect();
-    total_distances.iter().sum()
+        .map(|(a, b)| a.abs_diff(b))
+        .sum::<u32>()
+        .into()
 }
 
-pub fn compute_distance_between_lists(input_content: Vec<String>) -> i32 {
+pub fn compute_distance_between_lists(input_content: Vec<String>) -> u32 {
     let (list1, list2) = get_the_lists(input_content);
-    let total_distance: i32 = get_total_distance(list1, list2);
+    let total_distance: u32 = get_total_distance(list1, list2);
     total_distance
 }

@@ -33,6 +33,8 @@ impl Grid {
         })
     }
 
+    // FOR PART 1
+
     pub fn count_word(&self, word: String) -> usize {
         let mut count: usize = 0;
         for i in 0..self.height {
@@ -63,7 +65,7 @@ impl Grid {
             return count;
         }
         let (a, b) = self.map_indices_to_check(i as i32, j as i32, &direction);
-        if a < 0 || b < 0 || a as usize >= self.height || b as usize >= self.width {
+        if !self.are_valid(a, b) {
             return 0;
         }
         if word.chars().nth(0).unwrap() == self.data[a as usize][b as usize] {
@@ -73,6 +75,46 @@ impl Grid {
             return self.count_words_starting_there(a as usize, b as usize, &word[1..], direction);
         }
         0
+    }
+
+    // FOR PART 2
+
+    pub fn count_crosses(&self, _word: String) -> usize {
+        let mut count: usize = 0;
+        for i in 0..self.height {
+            for j in 0..self.width {
+                // Sorry I hardcoded it lol
+                if self.data[i][j] == 'A' {
+                    count += self.check_if_cross(i, j);
+                }
+            }
+        }
+        count
+    }
+
+    fn check_if_cross(&self, i: usize, j: usize) -> usize {
+        let top_left = self.data_contains(i, j, Direction::TopLeft);
+        let top_right = self.data_contains(i, j, Direction::TopRight);
+        let bottom_left = self.data_contains(i, j, Direction::BottomLeft);
+        let bottom_right = self.data_contains(i, j, Direction::BottomRight);
+        let mut chars = [top_left, top_right, bottom_left, bottom_right];
+        chars.sort();
+        if chars == ['M', 'M', 'S', 'S'] && top_right != bottom_left && top_left != bottom_right {
+            return 1;
+        }
+        0
+    }
+
+    fn data_contains(&self, i: usize, j: usize, direction: Direction) -> char {
+        let (a, b) = self.map_indices_to_check(i as i32, j as i32, &direction);
+        if self.are_valid(a, b) {
+            return self.data[a as usize][b as usize];
+        }
+        return '0';
+    }
+
+    fn are_valid(&self, a: i32, b: i32) -> bool {
+        a >= 0 && b >= 0 && (a as usize) < self.height && (b as usize) < self.width
     }
 
     fn map_indices_to_check(&self, i: i32, j: i32, direction: &Direction) -> (i32, i32) {

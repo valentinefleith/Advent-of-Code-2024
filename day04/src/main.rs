@@ -3,11 +3,10 @@ use std::{
     io::{prelude::*, BufReader},
 };
 
-// use day02::part1::count_safe_reports;
 use day04::grid::Grid;
 
 const INPUT_PATH: &str = "input.txt";
-// const PART: u32 = 2;
+const PART: u32 = 2;
 
 fn read_input(filename: &str) -> Vec<String> {
     let file = fs::File::open(filename).expect("No such file.");
@@ -20,6 +19,10 @@ fn read_input(filename: &str) -> Vec<String> {
 fn main() {
     let lines = read_input(INPUT_PATH);
     let grid = Grid::new(lines.len(), lines[0].len(), lines).unwrap();
-    let count = grid.count_word(String::from("XMAS"));
+    let count = if PART == 1 {
+        grid.count_word(String::from("XMAS"))
+    } else {
+        grid.count_crosses(String::from("MAS"))
+    };
     println!("{}", count);
 }

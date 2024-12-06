@@ -1,3 +1,4 @@
+use indicatif::ProgressIterator;
 use std::collections::HashSet;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -107,7 +108,7 @@ impl Map {
     pub fn count_loops(&mut self, guard_positions: HashSet<(i32, i32)>) -> usize {
         let mut count: usize = 0;
         let starting_pos: (i32, i32) = self.find_guard_starting_pos().unwrap();
-        for pos in guard_positions {
+        for pos in guard_positions.into_iter().progress() {
             if self.data[pos.0 as usize][pos.1 as usize] != Element::Nothing.as_char() {
                 continue;
             }

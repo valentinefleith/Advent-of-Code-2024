@@ -17,7 +17,7 @@ impl Element {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 enum Direction {
     Left,
     Top,
@@ -29,7 +29,7 @@ enum Direction {
 pub struct Map {
     height: usize,
     width: usize,
-    pub data: Vec<Vec<char>>,
+    data: Vec<Vec<char>>,
 }
 
 impl Map {
@@ -82,7 +82,7 @@ impl Map {
         }
     }
 
-    pub fn find_route(&self) -> usize {
+    pub fn find_route(&self) -> HashSet<(i32, i32)> {
         let mut positions: HashSet<(i32, i32)> = HashSet::new();
         let (mut i, mut j) = self.find_guard_starting_pos().unwrap();
         positions.insert((i, j));
@@ -101,6 +101,47 @@ impl Map {
             (i, j) = (candidate_i, candidate_j);
             positions.insert((i, j));
         }
-        positions.len()
+        positions
+    }
+
+    pub fn count_loops(&mut self, guard_positions: HashSet<(i32, i32)>) -> usize {
+        let mut count: usize = 0;
+        let starting_pos: (i32, i32) = self.find_guard_starting_pos().unwrap();
+        for pos in guard_positions {
+            if self.data[pos.0 as usize][pos.1 as usize] != Element::Nothing.as_char() {
+                continue;
+            }
+            self.data[pos.0 as usize][pos.1 as usize] = Element::Obstruction.as_char();
+            if self.is_looping(starting_pos) {
+                count += 1;
+            }
+            self.data[pos.0 as usize][pos.1 as usize] = Element::Nothing.as_char();
+        }
+        count
+    }
+
+    fn is_looping(&self, starting_pos: (i32, i32)) -> bool {
+        let mut positions: HashSet<((i32, i32), Direction)> = HashSet::new();
+        let (mut i, mut j) = starting_pos;
+        let mut current_dir = Direction::Top;
+        positions.insert(((i, j), current_dir));
+        while self.is_valid_pos(i, j) {
+            let (candidate_i, candidate_j) = self.map_indices_to_pos(i, j, &current_dir);
+            if !self.is_valid_pos(candidate_i, candidate_j) {
+                break;
+            }
+            if self.data[candidate_i as usize][candidate_j as usize]
+                == Element::Obstruction.as_char()
+            {
+                current_dir = self.get_next_direction(&current_dir);
+                continue;
+            }
+            (i, j) = (candidate_i, candidate_j);
+            if positions.contains(&((i, j), current_dir)) {
+                return true;
+            }
+            positions.insert(((i, j), current_dir));
+        }
+        false
     }
 }

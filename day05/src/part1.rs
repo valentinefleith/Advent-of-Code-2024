@@ -37,45 +37,36 @@ pub fn parse_lines(lines: Vec<String>) -> (Vec<Vec<i32>>, Vec<Vec<i32>>) {
     (rules, updates)
 }
 
-pub fn create_rule_map(rules: Vec<Vec<i32>>) -> HashMap<i32, Vec<i32>> {
+fn create_rule_map(rules: &Vec<Vec<i32>>, update: &Vec<i32>) -> HashMap<i32, Vec<i32>> {
     let mut ordered_rules: HashMap<i32, Vec<i32>> = HashMap::new();
     for rule in rules {
-        let current_nb = rule[0];
-        ordered_rules
-            .entry(current_nb)
-            .or_insert_with(Vec::new)
-            .push(rule[1]);
-    }
-    for (k, v) in ordered_rules.iter_mut() {
-        println!("key = {}, len_val = {}", k, v.len());
+        if update.contains(&rule[0]) && update.contains(&rule[1]){
+            let current_nb = rule[0];
+            ordered_rules
+                .entry(current_nb)
+                .or_insert_with(Vec::new)
+                .push(rule[1]);
+        }
     }
     ordered_rules
 }
 
-fn is_correct(update: Vec<i32>, rule_map: &HashMap<i32, Vec<i32>>) -> bool {
+fn is_correct(update: Vec<i32>, rules: &Vec<Vec<i32>>) -> bool {
+    let rule_map = create_rule_map(rules, &update);
     let mut clone = update.clone();
     clone.sort_by(|a, b| {
         let order_a = rule_map.get(a).map(|v| v.len());
         let order_b = rule_map.get(b).map(|v| v.len());
-        //println!("{}", order_a.unwrap());
-        //println!("{}", order_a.unwrap());
         order_b.cmp(&order_a)
     });
-    //println!("Update = {:?}, sorted = {:?}", update, clone);
     update == clone
 }
 
-pub fn get_nb_good_updates(rule_map: HashMap<i32, Vec<i32>>, updates: Vec<Vec<i32>>) -> i32 {
-    //println!("HASHMAP = {:?}", rule_map);
-    //let correct_updates: Vec<Vec<i32>> = updates.iter().filter(|u|is_correct((*u).to_vec(), &rule_map)).cloned().collect();
-    //println!("CORRECT UPDATES:\n{:?}\nlen={}", correct_updates, correct_updates.len());
-
+pub fn get_nb_good_updates(rules: Vec<Vec<i32>>, updates: Vec<Vec<i32>>) -> i32 {
     updates
         .iter()
-        .filter(|u| is_correct((*u).to_vec(), &rule_map))
+        .filter(|u| is_correct((*u).to_vec(), &rules))
         .cloned()
         .map(|u| u[u.len() / 2])
         .sum()
-
-    //map(u|u[u.len()/2]).sum()
 }

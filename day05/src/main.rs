@@ -3,7 +3,6 @@ use std::{
     io::{prelude::*, BufReader},
 };
 
-use day05::part1::create_rule_map;
 use day05::part1::get_nb_good_updates;
 use day05::part1::parse_lines;
 
@@ -21,8 +20,6 @@ fn read_input(filename: &str) -> Vec<String> {
 fn main() {
     let lines = read_input(INPUT_PATH);
     let (rules, updates) = parse_lines(lines);
-    let rule_map = create_rule_map(rules);
-    let result = get_nb_good_updates(rule_map, updates);
+    let result = get_nb_good_updates(rules, updates);
     println!("Result:\n{:?}", result);
-    // println!("Hello, world!");
 }

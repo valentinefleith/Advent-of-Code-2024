@@ -6,8 +6,6 @@
 //}
 
 fn concatenate(uint1: u64, uint2: u64) -> u64 {
-    // don't know why, second is more efficient
-    //let digits = (uint2 as f64).log10().ceil() as u32;
     let digits = (uint2 as f64).log10().floor() as u32 + 1;
     uint1 * 10u64.pow(digits) + uint2
 }

@@ -5,9 +5,10 @@ use std::{
 
 use day07::part1::get_right_combinations;
 use day07::part1::parse_lines;
+use day07::part2::get_right_combinations2;
 
 const INPUT_PATH: &str = "input.txt";
-const PART: u32 = 1;
+const PART: u32 = 2;
 
 fn read_input(filename: &str) -> Vec<String> {
     let file = fs::File::open(filename).expect("No such file.");
@@ -23,7 +24,7 @@ fn main() {
     let result: u64 = if PART == 1 {
         get_right_combinations(tested, remaining)
     } else {
-        0
+        get_right_combinations2(tested, remaining)
     };
     println!("{}", result);
 }

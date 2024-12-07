@@ -9,6 +9,9 @@ fn is_combination(test: &u64, remaining: Vec<u64>, current_result: u64) -> bool 
     if remaining.is_empty() {
         return current_result == *test;
     }
+    if current_result > *test {
+        return false;
+    }
     is_combination(test, remaining[1..].to_vec(), current_result + remaining[0])
         || is_combination(test, remaining[1..].to_vec(), current_result * remaining[0])
         || is_combination(

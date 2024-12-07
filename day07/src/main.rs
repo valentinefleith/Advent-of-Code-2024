@@ -9,7 +9,7 @@ use day07::part1::parse_lines;
 use day07::part2::get_right_combinations2;
 
 const INPUT_PATH: &str = "input.txt";
-const PART: u32 = 1;
+const PART: u32 = 2;
 
 fn read_input(filename: &str) -> Vec<String> {
     let file = fs::File::open(filename).expect("No such file.");

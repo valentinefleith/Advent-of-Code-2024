@@ -1,8 +1,15 @@
+//fn concatenate(uint1: u64, uint2: u64) -> u64 {
+//    let uint1_string = uint1.to_string();
+//    let uint2_string = uint2.to_string();
+//    let concatenated_str = format!("{uint1_string}{uint2_string}");
+//    concatenated_str.parse::<u64>().unwrap()
+//}
+
 fn concatenate(uint1: u64, uint2: u64) -> u64 {
-    let uint1_string = uint1.to_string();
-    let uint2_string = uint2.to_string();
-    let concatenated_str = format!("{uint1_string}{uint2_string}");
-    concatenated_str.parse::<u64>().unwrap()
+    // don't know why, second is more efficient
+    //let digits = (uint2 as f64).log10().ceil() as u32;
+    let digits = (uint2 as f64).log10().floor() as u32 + 1;
+    uint1 * 10u64.pow(digits) + uint2
 }
 
 fn is_combination(test: &u64, remaining: Vec<u64>, current_result: u64) -> bool {

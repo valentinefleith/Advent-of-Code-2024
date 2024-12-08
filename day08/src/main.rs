@@ -6,7 +6,7 @@ use std::{
 use day08::map::Map;
 
 const INPUT_PATH: &str = "input.txt";
-const PART: u32 = 1;
+const PART: u32 = 2;
 
 fn read_input(filename: &str) -> Vec<String> {
     let file = fs::File::open(filename).expect("No such file.");
@@ -19,6 +19,10 @@ fn read_input(filename: &str) -> Vec<String> {
 fn main() {
     let lines = read_input(INPUT_PATH);
     let map = Map::new(lines.len(), lines[0].len(), lines).unwrap();
-    let result = if PART == 1 { map.count_antinodes() } else { 0 };
+    let result = if PART == 1 {
+        map.count_antinodes(true)
+    } else {
+        map.count_antinodes(false)
+    };
     println!("{:?}", result);
 }

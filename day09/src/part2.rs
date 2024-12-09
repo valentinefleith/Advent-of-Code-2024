@@ -17,7 +17,7 @@ fn compute_nb_len(blocks: &Vec<i32>, index: usize) -> usize {
 }
 
 fn get_next_nb_index(blocks: &Vec<i32>, mut index: usize) -> usize {
-    while index >= 0 && blocks[index] == EMPTY {
+    while blocks[index] == EMPTY {
         index -= 1;
     }
     index
@@ -25,7 +25,7 @@ fn get_next_nb_index(blocks: &Vec<i32>, mut index: usize) -> usize {
 
 pub fn get_compact_p2(mut blocks: Vec<i32>) -> Vec<i32> {
     let mut j: usize = blocks.len() - 1;
-    while j >= 0 {
+    loop {
         let current_nb_len = compute_nb_len(&blocks, j);
         let mut i: usize = 0;
         while i < j {
@@ -37,8 +37,6 @@ pub fn get_compact_p2(mut blocks: Vec<i32>) -> Vec<i32> {
                 }
                 let mut count = 0;
                 while count < current_nb_len {
-                    if blocks[j] == 9999 {}
-
                     blocks[i + count] = blocks[j - count];
                     blocks[j - count] = -1;
                     count += 1;

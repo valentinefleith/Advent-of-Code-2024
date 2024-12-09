@@ -26,7 +26,7 @@ fn main() {
     } else {
         get_compact_p2(block_representation)
     };
-    println!("COMPACT = {:?}", compact);
+    //println!("COMPACT = {:?}", compact);
     let result = get_final_result(compact);
     println!("{}", result);
 }

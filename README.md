@@ -1,5 +1,6 @@
 # Advent-of-Code-2024
-![image](https://github.com/user-attachments/assets/40b0c4dd-b108-478e-be43-e65646433f07)
+![image](https://github.com/user-attachments/assets/07445672-da69-42b2-9f83-f56f12bb6536)
+
 
 
 
@@ -12,3 +13,4 @@
 - **Day 6** : [`Part 1`](/day06/src/map.rs) :star: | [`Part 2`](/day06/src/map.rs) :star2:
 - **Day 7** : [`Part 1`](/day07/src/part1.rs) :star: | [`Part 2`](/day07/src/part2.rs) :star2:
 - **Day 8** : [`Part 1`](/day08/src/map.rs) :star: | [`Part 2`](/day08/src/map.rs) :star2:
+- **Day 9** : [`Part 1`](/day09/src/part1.rs) :star: | [`Part 2`](/day09/src/part2.rs) :star2:
